@@ -60,7 +60,8 @@ def insert_data(conn, pIndex):
 
     create_table(conn)
 
-    response = requests.get(f'https://open.assembly.go.kr/portal/openapi/nzmimeepazxkubdpn?AGE=21&pIndex={pIndex}&pSize=1000&Type=json&KEY={CONGRESS_API_KEY}')
+    response = requests.get(f'https://open.assembly.go.kr/portal/openapi/nzmimeepazxkubdpn?AGE=22&pIndex={pIndex}&pSize=1000&Type=json&KEY={CONGRESS_API_KEY}')
+    print(response.json())
     data = response.json()["nzmimeepazxkubdpn"]
     if (data[0]["head"][1]["RESULT"]["CODE"] == "INFO-000"):
         cursor = conn.cursor()
@@ -104,11 +105,11 @@ if __name__ == "__main__":
     pIndex = 1
     total_bills_count = 1
 
-    while total_bills_count > pIndex: 
+    while total_bills_count >= pIndex: 
         print(f"Processing page {pIndex}...")
-        pIndex += 1
         total_bills_count = insert_data(get_connection(), pIndex)
         if (total_bills_count % 1000) == 0:
             total_bills_count = total_bills_count // 1000
         else:
-            total_bills_count = (total_bills_count // 1000) + 1
+            total_bills_count = total_bills_count // 1000 + 1
+        pIndex += 1
