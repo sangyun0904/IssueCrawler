@@ -28,7 +28,6 @@ if __name__ == "__main__":
     conn = get_connection()
     cursor = conn.cursor()
 
-    count = 1
     lawId = None
     for page in doc:
         isJunmoon = False
@@ -37,11 +36,7 @@ if __name__ == "__main__":
         articleNum = 1 
         clauseNum = 1
         content = ""
-
-        if count > 4:
-            break
         
-        print(f"Page {count} text:")
         text = page.get_text()
         for line in text.split('\n'):
             if re.search("전문", line):
