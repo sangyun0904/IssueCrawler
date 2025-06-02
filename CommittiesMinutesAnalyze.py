@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI()
 
 def extract_sentences_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
@@ -55,7 +55,7 @@ def filter_important_sentences(sentences):
 
     response = client.responses.create(
         model="gpt-4.1",
-        input=prompt
+        input="Wirte a one-senence bedtime story about a unicorn."
     )
     
     return response.output_text
